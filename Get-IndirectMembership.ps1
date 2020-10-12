@@ -17,7 +17,7 @@ function Get-IndirectMembership($object,$hierarchy=''){
        Get-IndirectMembership $_ $hierarchy
     }
   }else{
-     [psobject]@{
+     [pscustomobject]@{
         Hierarchy=$hierarchy
         ObjectClass=$_.ObjectClass
         Name=$_.name
