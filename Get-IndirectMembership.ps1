@@ -2,7 +2,11 @@
 function Get-IndirectMembership($object,$hierarchy=''){
 
   if(-not $object.ObjectClass){
-    $object=Get-ADObject -filter "name -eq '$object'"
+    if($object -like 'CN=*'){
+      $object=Get-ADObject -filter "DistinguishedName -eq '$object'"
+    }else{
+      $object=Get-ADObject -filter "name -eq '$object'"
+    }
   }
   
   if(-not $hierarchy){
