@@ -29,6 +29,13 @@ function Get-IndirectMembership($object,$hierarchy=''){
           DistinguishedName=$o.DistinguishedName   
        }  
      }else{
+       [pscustomobject]@{
+          Hierarchy=$hierarchy
+          Enabled=$true
+          ObjectClass=$_.ObjectClass
+          Name=$_.name
+          DistinguishedName=$_.DistinguishedName   
+        }
        #write-host -ForegroundColor red "$($_.ObjectClass),$($_.Name)"     
      }
   }  
