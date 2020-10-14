@@ -1,3 +1,4 @@
+#Listet die direkten und indirekten Mitglieder einer Gruppe auf sofern es sich um Benutzer handelt
 function Get-IndirectMembership($object,$hierarchy=''){
 
   if(-not $object.ObjectClass){
@@ -17,11 +18,18 @@ function Get-IndirectMembership($object,$hierarchy=''){
        Get-IndirectMembership $_ $hierarchy
     }
   }else{
-     [pscustomobject]@{
-        Hierarchy=$hierarchy
-        ObjectClass=$_.ObjectClass
-        Name=$_.name
-        DistinguishedName=$_.DistinguishedName     
+     if($_.ObjectClass -eq 'user'){
+       #nur Userobjekte ausgeben
+       $o=$_|Get-ADUser 
+       [pscustomobject]@{
+          Hierarchy=$hierarchy
+          Enabled=$o.Enabled
+          ObjectClass=$o.ObjectClass
+          Name=$o.name
+          DistinguishedName=$o.DistinguishedName   
+       }  
+     }else{
+       #write-host -ForegroundColor red "$($_.ObjectClass),$($_.Name)"     
      }
   }  
 }
